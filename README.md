@@ -1,5 +1,10 @@
 #Guild Wars 2 World Boss Timer
 
+
+##To Do
+* Add different cmd colors. Red for active and yellow for upcoming
+* Implement UI
+
 ##Input
 ####**_"timed_bosses.json"_** 
 A file containing the timed bosses details and UTC spawn times in the following format:
@@ -20,4 +25,3 @@ A file containing the timed bosses details and UTC spawn times in the following 
 * Time till next boss
 * Encounter/Total Encounters (Derived from the position of the current time in the total set of that bosses times)
 * Special loot available?
-

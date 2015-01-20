@@ -129,7 +129,7 @@
         "rank" : "Epic",
         "waypoint" : "[&BHoCAAA=]",
         "wiki" : "http://wiki.guildwars2.com/wiki/Defeat_the_Claw_of_Jormag",
-        "times" : ["02:30", "05:30", "08:30", "11:30", "14:30", "17:30", "20:20", "23:30"],
+        "times" : ["02:30", "05:30", "08:30", "11:30", "14:30", "17:30", "20:30", "23:30"],
         "loot" : [
             {"Dragonite Ore" : "15-25"},
             {"Rare or Exotic Items" : "1"},
