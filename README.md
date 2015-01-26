@@ -1,9 +1,6 @@
 #Guild Wars 2 World Boss Timer
+------------
 
-
-##To Do
-* Add different cmd colors. Red for active and yellow for upcoming
-* Implement UI
 
 ##Input
 ####**_"timed_bosses.json"_** 
