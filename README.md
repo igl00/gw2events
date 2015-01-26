@@ -9,8 +9,12 @@ A file containing the timed bosses details and UTC spawn times in the following 
     "Karka Queen" : {
         "category" : "Hardcore",
         "rank" : "Legendary",
-        "waypoint" : "[&BNUGAAA=]",
+        "location" : "Southsun Cove",
+        "waypoint" : {
+            "name" : "Pearl Islet",
+            "link" : "[&BNUGAAA=]"},
         "wiki" : "http://wiki.guildwars2.com/wiki/Defeat_the_Karka_Queen_threatening_the_settlements",
+        "average_time" : "120",
         "times" : ["02:00", "06:00", "10:30", "15:00", "18:00", "23:00"],
         "loot" : [
             {"Dragonite Ore" : "30"},

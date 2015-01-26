@@ -2,9 +2,12 @@
     "Tequatl" : {
         "category" : "Hardcore",
         "rank" : "Epic",
-        "waypoint" : "[&BNABAAA=]",
+        "location" : "Sparkfly Fen",
+        "waypoint" : {
+            "name" : "Splintered Coast",
+            "link" : "[&BNABAAA=]"},
         "wiki" : "http://wiki.guildwars2.com/wiki/Defeat_Tequatl_the_Sunless",
-        "average_time" : "900",
+        "average_time" : "930",
         "times" : ["00:00", "03:00", "07:00", "11:30", "16:00", "19:00"],
         "loot" : [
             {"Dragonite Ore" : "20"},
@@ -14,7 +17,10 @@
     "Karka Queen" : {
         "category" : "Hardcore",
         "rank" : "Legendary",
-        "waypoint" : "[&BNUGAAA=]",
+        "location" : "Southsun Cove",
+        "waypoint" : {
+            "name" : "Pearl Islet",
+            "link" : "[&BNUGAAA=]"},
         "wiki" : "http://wiki.guildwars2.com/wiki/Defeat_the_Karka_Queen_threatening_the_settlements",
         "average_time" : "120",
         "times" : ["02:00", "06:00", "10:30", "15:00", "18:00", "23:00"],
@@ -26,7 +32,10 @@
     "Taidha Covington" : {
         "category" : "Standard",
         "rank" : "Legendary",
-        "waypoint" : "[&BKgBAAA=]",
+        "location" : "Bloodtide Coast",
+        "waypoint" : {
+            "name" : "Laughing Gull Island",
+            "link" : "[&BKgBAAA=]"},
         "wiki" : "http://wiki.guildwars2.com/wiki/Kill_Admiral_Taidha_Covington",
         "average_time" : "450",
         "times" : ["00:00", "03:00", "06:00", "09:00", "12:00", "15:00", "18:00", "21:00"],
@@ -37,7 +46,10 @@
     "Svanir Shaman" : {
         "category" : "Low-level",
         "rank" : "Champion",
-        "waypoint" : "[&BMIDAAA=]",
+        "location" : "Wayfarer Foothills",
+        "waypoint" : {
+            "name" : "Frusenfell Creek",
+            "link" : "[&BMIDAAA=]"},
         "wiki" : "http://wiki.guildwars2.com/wiki/Kill_the_Svanir_shaman_chief_to_break_his_control_over_the_ice_elemental",
         "average_time" : "450",
         "times" : ["00:15", "02:15", "04:15", "06:15", "08:15", "10:15", "12:15", "14:15", "16:15", "18:15", "20:15", "22:15"],
@@ -48,7 +60,10 @@
     "Megadestroyer" : {
         "category" : "Standard",
         "rank" : "Champion",
-        "waypoint" : "[&BM0CAAA=]",
+        "location" : "Mount Maelstrom",
+        "waypoint" : {
+            "name" : "Maelstrom's Bile",
+            "link" : "[&BM0CAAA=]"},
         "wiki" : "http://wiki.guildwars2.com/wiki/Kill_the_megadestroyer_before_it_blows_everyone_up",
         "average_time" : "450",
         "times" : ["00:30", "03:30", "06:30", "09:30", "12:30", "15:30", "18:30", "21:30"],
@@ -58,7 +73,10 @@
     "Fire Elemental" : {
         "category" : "Low-level",
         "rank" : "Epic",
-        "waypoint" : "[&BEYAAAA=]",
+        "location" : "Metrica Province",
+        "waypoint" : {
+            "name" : "Muridian Uplands",
+            "link" : "[&BEYAAAA=]"},
         "wiki" : "http://wiki.guildwars2.com/wiki/Destroy_the_fire_elemental_created_from_chaotic_energy_fusing_with_the_C.L.E.A.N._5000%27s_energy_core",
         "average_time" : "450",
         "times" : ["00:45", "02:45", "04:45", "06:45", "08:45", "10:45", "12:45", "14:45", "16:45", "18:45", "20:45", "22:45"],
@@ -70,7 +88,10 @@
     "The Shatterer" : {
         "category" : "Standard",
         "rank" : "Epic",
-        "waypoint" : "[&BE4DAAA=]",
+        "location" : "Blazeridge Steppes",
+        "waypoint" : {
+            "name" : "Lowland Burns",
+            "link" : "[&BE4DAAA=]"},
         "wiki" : "http://wiki.guildwars2.com/wiki/Slay_the_Shatterer",
         "average_time" : "450",
         "times" : ["01:00", "04:00", "07:00", "10:00", "13:00", "16:00", "19:00", "22:00"],
@@ -81,7 +102,10 @@
     "Evolved Jungle Wurm" : {
         "category" : "Hardcore",
         "rank" : "Epic",
-        "waypoint" : "[&BKoBAAA=]",
+        "location" : "Bloodtide Coast",
+        "waypoint" : {
+            "name" : "Firth of Revanion",
+            "link" : "[&BKoBAAA=]"},
         "wiki" : "http://wiki.guildwars2.com/wiki/Triple_Trouble",
         "average_time" : "450",
         "times" : ["01:00", "04:00", "08:00", "12:30", "17:00", "20:00"],
@@ -93,7 +117,10 @@
     "Jungle Wurm" : {
         "category" : "Low-level",
         "rank" : "Epic",
-        "waypoint" : "[&BEEFAAA=]",
+        "location" : "Caledon Forest",
+        "waypoint" : {
+            "name" : "Wychmire Swamp",
+            "link" : "[&BEEFAAA=]"},
         "wiki" : "http://wiki.guildwars2.com/wiki/Defeat_the_great_jungle_wurm",
         "average_time" : "180",
         "times" : ["01:15", "03:15", "05:15", "07:15", "09:15", "11:15", "13:15", "15:15", "17:15", "19:15", "21:15", "23:15"],
@@ -104,7 +131,10 @@
     "Modniir Ulgoth" : {
         "category" : "Standard",
         "rank" : "Champion",
-        "waypoint" : "[&BLAAAAA=]",
+        "location" : "Harathi Hinterlands",
+        "waypoint" : {
+            "name" : "Modniir Gorge",
+            "link" : "[&BLAAAAA=]"},
         "wiki" : "http://wiki.guildwars2.com/wiki/Defeat_Ulgoth_the_Modniir_and_his_minions",
         "average_time" : "450",
         "times" : ["01:30", "04:30", "07:30", "10:30", "13:30", "16:30", "19:30", "22:30"],
@@ -116,7 +146,10 @@
     "Shadow Behemoth" : {
         "category" : "Low-level",
         "rank" : "Epic",
-        "waypoint" : "[&BPcAAAA=]",
+        "location" : "Queensdale",
+        "waypoint" : {
+            "name" : "Godslost Swamp",
+            "link" : "[&BPcAAAA=]"},
         "wiki" : "http://wiki.guildwars2.com/wiki/Defeat_the_shadow_behemoth",
         "average_time" : "450",
         "times" : ["01:45", "03:45", "05:45", "07:45", "09:45", "11:45", "13:45", "15:45", "17:45", "19:45", "21:45", "23:45"],
@@ -127,7 +160,10 @@
     "Gollem Mark II" : {
         "category" : "Standard",
         "rank" : "Epic",
-        "waypoint" : "[&BNQCAAA=]",
+        "location" : "Mount Maelstrom",
+        "waypoint" : {
+            "name" : "Whitland Flats",
+            "link" : "[&BNQCAAA=]"},
         "wiki" : "http://wiki.guildwars2.com/wiki/Defeat_the_Inquest%27s_golem_Mark_II",
         "average_time" : "450",
         "times" : ["02:00", "05:00", "08:00", "11:00", "14:00", "17:00", "20:00", "23:00"],
@@ -139,7 +175,10 @@
     "Claw of Jormag" : {
         "category" : "Standard",
         "rank" : "Epic",
-        "waypoint" : "[&BHoCAAA=]",
+        "location" : "Frostgorge Sound",
+        "waypoint" : {
+            "name" : "Earthshake Basin",
+            "link" : "[&BHoCAAA=]"},
         "wiki" : "http://wiki.guildwars2.com/wiki/Defeat_the_Claw_of_Jormag",
         "average_time" : "450",
         "times" : ["02:30", "05:30", "08:30", "11:30", "14:30", "17:30", "20:30", "23:30"],
