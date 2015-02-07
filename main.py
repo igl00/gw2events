@@ -13,7 +13,6 @@ class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        print(QImageReader.supportedImageFormats ())
 
         self.setupUi(self)
 
@@ -31,18 +30,16 @@ class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
         timers.timeout.connect(lambda: self.update_events(self.gw2events))
         timers.start(1000)
 
-        # Load custom fonts
-        QFontDatabase.addApplicationFont(':/assets/fonts/Day Roman.ttf')
-        QFontDatabase.addApplicationFont(':/assets/fonts/Garamond.otf')
+        # Load custom font
         QFontDatabase.addApplicationFont(':/assets/fonts/Legacy Sans Bold.ttf')
-        QFontDatabase.addApplicationFont(':/assets/fonts/Maiandra.ttf')
 
         # Create the flow layout for the main canvas
         self.mainCanvas_layout = FlowLayout(margin=0, spacing=0)
         self.mainCanvas_widget.setLayout(self.mainCanvas_layout)
 
         # Add the details widget as the first flow item
-        #self.build_details_panel()
+        self.details = self.build_details_panel()
+        self.details.hide()
 
         # Build the panels
         self.build_panels(self.gw2events)
@@ -97,6 +94,7 @@ class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
             # Set layouts
             self.mainCanvas_layout.addWidget(widget)
 
+
     def rebuild_panels(self, gw2events):
         for widget in self.mainCanvas_widget.findChildren(QWidget):
             widget.deleteLater()
@@ -120,6 +118,8 @@ class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
 
         # Add to the font of the flow layout
         self.mainCanvas_layout.addWidget(detail_widget)
+
+        return detail_widget
 
     def toggle_details_panel(self):
         details_widget = self.findChild(QWidget, "details_widget")

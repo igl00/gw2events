@@ -16,9 +16,6 @@
         <file>assets/panels/karkaqueen.png</file>
         <file>assets/panels/gollemmarkii.png</file>
         <file>assets/fonts/Legacy Sans Bold.ttf</file>
-        <file>assets/fonts/Maiandra.ttf</file>
-        <file>assets/fonts/Day Roman.ttf</file>
-        <file>assets/fonts/Garamond.otf</file>
         <file>assets/stylesheets/main.qss</file>
     </qresource>
 </RCC>

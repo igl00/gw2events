@@ -2,13 +2,16 @@ from PySide import QtCore, QtGui
 
 
 class FlowLayout(QtGui.QLayout):
-    def __init__(self, parent=None, margin=0, spacing=-1):
+    def __init__(self, parent=None, panel_width=350, panel_height=150, margin=0, spacing=-1):
         super(FlowLayout, self).__init__(parent)
 
         if parent is not None:
             self.setMargin(margin)
 
         self.layoutMargin = margin
+
+        self.panelWidth = panel_width
+        self.panelHeight = panel_height
 
         self.setSpacing(spacing)
 
@@ -73,25 +76,49 @@ class FlowLayout(QtGui.QLayout):
         return size
 
     def doLayout(self, rect, testOnly):
-        x = rect.x()
-        y = rect.y()
-        lineHeight = 0
+        items = self.itemList
+        resize_delay = self.panelWidth - 250  # Pixels allowed to be hidden before resizing
+        border_right = rect.right() + resize_delay
+        origin_x = rect.x()
+        origin_y = rect.y()
+        x = origin_x
+        y = origin_y
+        line_height = 0
 
-        for item in self.itemList:
-            wid = item.widget()
-            spaceX = self.spacing() + 0  # wid.style().layoutSpacing(QtGui.QSizePolicy.PushButton, QtGui.QSizePolicy.PushButton, QtCore.Qt.Horizontal)
-            spaceY = self.spacing() + 0  # wid.style().layoutSpacing(QtGui.QSizePolicy.PushButton, QtGui.QSizePolicy.PushButton, QtCore.Qt.Vertical)
-            nextX = x + item.sizeHint().width() + spaceX
-            if nextX - spaceX > rect.right() and lineHeight > 0:
-                x = rect.x()
-                y = y + lineHeight + spaceY
-                nextX = x + item.sizeHint().width() + spaceX
-                lineHeight = 0
+        # Check for details widget
+        if self.itemHeight(items[0]) > self.itemHeight(items[1]):
+            panelToDetailRatio = int(self.itemHeight(items[0]) / self.panelHeight)
+            details = True
+        else:
+            panelToDetailRatio = 0
+            details = False
 
+        # Layout the panels left>right, top>bottom.
+        # It's going to need some more work to make it more flexible/faster
+        for i, item in enumerate(items):
+            width, height = item.sizeHint().toTuple()  # Set the current items width & height
+            next_x = x + width
+
+            if next_x > border_right and line_height > 0:
+                # Deal with the panels to the right of the details
+                if details and i <= int(panelToDetailRatio * (int(border_right/self.panelWidth)-1)):
+                    x = origin_x + width
+                    y += self.panelHeight
+                # Else continue as normal
+                else:
+                    x = origin_x
+                    y += line_height
+                next_x = x + width
+                line_height = 0
+
+            # Position the item if not in test mode
             if not testOnly:
                 item.setGeometry(QtCore.QRect(QtCore.QPoint(x, y), item.sizeHint()))
 
-            x = nextX
-            lineHeight = max(lineHeight, item.sizeHint().height())
+            x = next_x
+            line_height = max(line_height, height)
 
-        return y + lineHeight - rect.y()
+        return y + line_height + origin_y
+
+    def itemHeight(self, item):
+        return item.sizeHint().height()
