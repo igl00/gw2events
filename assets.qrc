@@ -1,0 +1,24 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource prefix="/">
+        <file>assets/icons/Gw2.png</file>
+        <file>assets/panels/overlay.png</file>
+        <file>assets/panels/clawofjormag.png</file>
+        <file>assets/panels/shadowbehemoth.png</file>
+        <file>assets/panels/tequatl.png</file>
+        <file>assets/panels/taidhacovington.png</file>
+        <file>assets/panels/thefrozenmaw.png</file>
+        <file>assets/panels/megadestroyer.png</file>
+        <file>assets/panels/fireelemental.png</file>
+        <file>assets/panels/theshatterer.png</file>
+        <file>assets/panels/evolvedjunglewurm.png</file>
+        <file>assets/panels/junglewurm.png</file>
+        <file>assets/panels/modniirulgoth.png</file>
+        <file>assets/panels/karkaqueen.png</file>
+        <file>assets/panels/gollemmarkii.png</file>
+        <file>assets/fonts/Legacy Sans Bold.ttf</file>
+        <file>assets/fonts/Maiandra.ttf</file>
+        <file>assets/fonts/Day Roman.ttf</file>
+        <file>assets/fonts/Garamond.otf</file>
+        <file>assets/stylesheets/main.qss</file>
+    </qresource>
+</RCC>

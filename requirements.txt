@@ -1,2 +1,5 @@
 PySide==1.2.2
 colorama==0.3.3
+psutil==2.2.0
+pyinstaller==3.0dev
+pywin32==219

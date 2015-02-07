@@ -26,3 +26,9 @@ A file containing the timed bosses details and UTC spawn times in the following 
 * Time till next boss
 * Encounter/Total Encounters (Derived from the position of the current time in the total set of that bosses times)
 * Special loot available?
+
+
+#TODO
+* Sort the active times
+* Set the focus of the window to the main panel when it open so that scrolling works straight away
+* Finish the menu items

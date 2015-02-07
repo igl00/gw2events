@@ -43,7 +43,7 @@
             {"Dragonite Ore" : "3-5"},
             {"Rare or Exotic Items" : "1"}]
     },
-    "Svanir Shaman" : {
+    "The Frozen Maw" : {
         "category" : "Low-level",
         "rank" : "Champion",
         "location" : "Wayfarer Foothills",
@@ -78,7 +78,7 @@
             "name" : "Muridian Uplands",
             "link" : "[&BEYAAAA=]"},
         "wiki" : "http://wiki.guildwars2.com/wiki/Destroy_the_fire_elemental_created_from_chaotic_energy_fusing_with_the_C.L.E.A.N._5000%27s_energy_core",
-        "average_time" : "450",
+        "average_time" : "660",
         "times" : ["00:45", "02:45", "04:45", "06:45", "08:45", "10:45", "12:45", "14:45", "16:45", "18:45", "20:45", "22:45"],
         "loot" : [
             {"Dragonite Ore" : "3-5"},
@@ -180,7 +180,7 @@
             "name" : "Earthshake Basin",
             "link" : "[&BHoCAAA=]"},
         "wiki" : "http://wiki.guildwars2.com/wiki/Defeat_the_Claw_of_Jormag",
-        "average_time" : "450",
+        "average_time" : "1140",
         "times" : ["02:30", "05:30", "08:30", "11:30", "14:30", "17:30", "20:30", "23:30"],
         "loot" : [
             {"Dragonite Ore" : "15-25"},

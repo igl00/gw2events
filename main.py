@@ -1,154 +1,273 @@
-"""
-Version 0.1
-"""
+import psutil
+from PySide.QtGui import *
+from PySide.QtCore import *
+from time import sleep
 
-import json
-import datetime
-import os
-import time
-import logging as log
-import sys
-import colorama
+from events import GW2EVENTS
+from flowLayout import FlowLayout
+from build_utils import resource_path
+import mainGui
 
 
-class GW2EVENTS:
-    def __init__(self):
-        log.basicConfig(filename='debug.log', level=log.INFO)
-        self.events = self.get_events('timed_bosses.json')
-        self.longest_title = 0
-        self.DAY = 86400  # A full 24 hours in seconds
-        self.ACTIVE = 450  # Sets the number of seconds to leave an event active 600 = 10 minutes
+class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
 
-    def build_events(self, console_out=False):
-        timer = []
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        print(QImageReader.supportedImageFormats ())
 
-        for boss in self.events:
-            # Set the longest_title variable to the length of the longest title for spacing
-            if len(boss) > self.longest_title:
-                self.longest_title = len(boss)
+        self.setupUi(self)
 
-            times = self.get_utc_times(self.events[boss]["times"])
-            average_time = int(self.events[boss]["average_time"])
-            deltas = self.get_spawn_delta(times)
+        # Update the Gw2 Instance IP address
+        self.iipThread = IIPThread()
 
-            # Make sure there is an average tim
-            if not average_time:
-                average_time = self.ACTIVE
+        self.connect(self.iipThread, SIGNAL("instanceIP(QString)"), self.update_iip, Qt.DirectConnection)
+        self.iipThread.start()
 
-            # DEBUG
-            log.debug("Unsorted Deltas\n===================")
-            log.debug("Unsorted Deltas::%s [%s]" % (boss, ', '.join(str(i.seconds) for i in deltas)))
-            log.debug("===================")
+        # Build and update the event times
+        self.gw2events = GW2EVENTS()
+        self.event_data = self.gw2events.events
 
-            # Populate the timer list with the current event
-            if deltas[-1].seconds > self.DAY - average_time:
-                timer.append((boss, -deltas[-1].seconds, average_time))
-            else:
-                timer.append((boss, deltas[0].seconds, average_time))
+        timers = QTimer(self)
+        timers.timeout.connect(lambda: self.update_events(self.gw2events))
+        timers.start(1000)
 
-        # Sort the timer so that the next event floats to the top
-        timer = sorted(timer, key=lambda t: t[1])
+        # Load custom fonts
+        QFontDatabase.addApplicationFont(':/assets/fonts/Day Roman.ttf')
+        QFontDatabase.addApplicationFont(':/assets/fonts/Garamond.otf')
+        QFontDatabase.addApplicationFont(':/assets/fonts/Legacy Sans Bold.ttf')
+        QFontDatabase.addApplicationFont(':/assets/fonts/Maiandra.ttf')
 
-        if console_out:
-            self.print_events(timer)
-        else:
-            return timer
+        # Create the flow layout for the main canvas
+        self.mainCanvas_layout = FlowLayout(margin=0, spacing=0)
+        self.mainCanvas_widget.setLayout(self.mainCanvas_layout)
 
-    def format_seconds(self, s):
-        """
-        Returns seconds in the following string format HH:MM:SS
-        :param s:
-        :return:
-        """
-        return '{:02}:{:02}:{:02}'.format(s // 3600, s % 3600 // 60, s % 60)
+        # Add the details widget as the first flow item
+        #self.build_details_panel()
 
-    def get_utc_times(self, times):
-        """
-        Takes a list of times in string format HH:MM and returns a list of utc datetime objects
-        :param times:
-        :return:
-        """
-        utc_times = []
+        # Build the panels
+        self.build_panels(self.gw2events)
 
-        for t in times:
-            # Takes the str time and unpacks it as ints
-            hours, minutes = map(int, t.split(":"))
-            # Converts the raw minutes and hours to a UTC datetime object
-            dt = datetime.datetime.combine(datetime.datetime.utcnow().date(), datetime.time(hours, minutes))
-            utc_times.append(dt)
-        # Sort the times in case they are out of order
-        utc_times.sort()
+        # Misc
+        self.actionCompact.activated.connect(self.toggle_details_panel)
 
-        return utc_times
+    def build_panels(self, gw2events):
+        events = gw2events.build_events()
 
-    def get_spawn_delta(self, times):
-        """
-        Takes in a list of UTC spawn times and returns a list of the deltas from the current UTC time
-        :param times:
-        :return:
-        """
-
-        deltas = []
-        now = datetime.datetime.utcnow()
-        for t in times:
-            delta = t - now
-            deltas.append(delta)
-
-        deltas = sorted(deltas, key=lambda d: d.seconds)
-
-        # DEBUG
-        log.debug("Getting deltas for %s" % (" ".join(str(t.time()) for t in times)))
-        log.debug("Deltas for %s" % (" ".join(str(d.seconds) for d in deltas)))
-        log.debug("Sorted Deltas for %s" % (" ".join(str(d.seconds) for d in deltas)))
-
-        return deltas
-
-    def get_events(self, file):
-        """
-        Opens a file and returns it as a json object
-        :param file:
-        :return:
-        """
-        with open(file, 'r') as f:
-            data = f.read()
-            json_data = json.loads(data)
-        return json_data
-
-    def print_events(self, events):
-        """
-        Output the given event list to the console
-        :param events:
-        :return:
-        """
         for event in events:
-            boss = event[0]
-            t = event[1]
-            average_time = event[2]
-            spacing = (self.longest_title - len(boss))
+            boss, time, active = event
+            average_time = gw2events.events[boss]["average_time"]
 
-            if t < 900:
-                color = "yellow"
-            else:
-                color = None
+            # Generate the panel name from the boss name
+            name = boss.replace(" ", "").lower()
+            panelRootDir = ":/assets/panels/%s"
+            panelDir = panelRootDir % name + ".png"
+            overlayDir = panelRootDir % "overlay.png"
 
-            if t < 0:
-                self.print_color("red", boss, " " * spacing, "Active(%s)" % self.format_seconds(average_time - (self.DAY + t)))
-            else:
-                self.print_color(color, boss, " " * spacing, self.format_seconds(t))
+            # Build a widget
+            widget = TileWidget(panelDir, overlayDir)
+            widget.setMinimumSize(QSize(350, 150))
+            widget.setMaximumSize(QSize(350, 150))
+            widget.setContentsMargins(0, 0, 0, 0)
+            widget.setObjectName("%s_widget" % name)
+            widget.active = active
 
-    def clear_console(self):
-        os.system('cls')
+            # Build the name label
+            boss_label = QLabel(widget)
+            boss_label.setText(boss)
+            boss_label.setFont(self.boss_font())
+            boss_label.setObjectName("%s_name_label" % name)
+            boss_label.move(30, 112)
 
-    def print_color(self, color, *args):
-        c = {None: 30, "red": 31, "yellow": 33, "green": 32}
-        print('\033[1;%sm%s\033[1;m' % (c[color], " ".join(args)))
+            # Build the time label
+            time_label = QLabel(widget)
+            time_label.setText(self.format_time(time, average_time))
+            time_label.setObjectName("%s_time_label" % name)
+            time_label.setFont(self.time_font())
+            time_label.setStyleSheet(self.color_time(active))
+            time_label.move(270, 7)
 
+            # Build the active label
+            active_label = QLabel(widget)
+            active_label.setText(self.set_active_label(active))
+            active_label.setObjectName("%s_active_label" % name)
+            active_label.setFont(self.active_font())
+            active_label.setStyleSheet("color: rgb(177, 58, 58);")
+            active_label.move(95, 50)
+
+            # Set layouts
+            self.mainCanvas_layout.addWidget(widget)
+
+    def rebuild_panels(self, gw2events):
+        for widget in self.mainCanvas_widget.findChildren(QWidget):
+            widget.deleteLater()
+        self.build_panels(gw2events)
+
+    def build_details_panel(self, widget_name=None):
+        #widget = self.findChild(QWidget, "%s_widget" % widget_name)
+        detail_widget = QWidget()
+        detail_widget.setMinimumSize(QSize(350, 450))
+        detail_widget.setMaximumSize(QSize(350, 450))
+        detail_widget.setContentsMargins(0, 0, 0, 0)
+        detail_widget.setObjectName("details_widget")
+
+        # Build the active label
+        active_label = QLabel(detail_widget)
+        active_label.setText("Bam!!")
+        active_label.setObjectName("details_active_label")
+        active_label.setFont(self.active_font())
+        active_label.setStyleSheet("color: rgb(177, 58, 58);")
+        active_label.move(95, 50)
+
+        # Add to the font of the flow layout
+        self.mainCanvas_layout.addWidget(detail_widget)
+
+    def toggle_details_panel(self):
+        details_widget = self.findChild(QWidget, "details_widget")
+        if details_widget.isVisible():
+            details_widget.hide()
+        else:
+            details_widget.show()
+
+    def format_time(self, time, average_time):
+        return self.gw2events.format_seconds(time, average_time)
+
+    def color_time(self, active):
+        if active:
+            return "color: rgb(177, 58, 58);"
+        else:
+            return "color: rgb(162, 147, 130);"
+
+    def time_font(self):
+        font = QFont("ITCLegacySans LT Book")
+        font.setStyleStrategy(QFont.PreferAntialias)
+        font.setPixelSize(18)
+        font.setBold(True)
+
+        return font
+
+    def boss_font(self):
+        font = QFont("Arial")
+        font.setStyleStrategy(QFont.PreferAntialias)
+        font.setPixelSize(14)
+        font.setBold(True)
+        font.setCapitalization(QFont.Capitalization(True))
+
+        return font
+
+    def active_font(self):
+        font = QFont("Arial")
+        font.setStyleStrategy(QFont.PreferAntialias)
+        font.setPixelSize(30)
+        font.setBold(True)
+
+        return font
+
+    def set_active_label(self, active):
+        if active:
+            return "In Progress"
+        else:
+            return ""
+
+    def update_events(self, gw2events):
+        events = gw2events.build_events()
+        for event in events:
+            boss, time, active = event
+            average_time = gw2events.events[boss]["average_time"]
+            name = boss.replace(" ", "").lower()
+
+            # Check to see if a rebuild is needed
+            widget = self.findChild(QWidget, "%s_widget" % name)
+            if widget:
+                if widget.active and not active:
+                    self.rebuild_panels(self.gw2events)
+                    break
+
+            # Update labels
+            time_label = self.findChild(QLabel, "%s_time_label" % name)
+            if time_label:
+                time_label.setText(self.format_time(time, average_time))
+                time_label.setStyleSheet(self.color_time(active))
+                widget.active = active
+
+            active_label = self.findChild(QLabel, "%s_active_label" % name)
+            if active_label:
+                active_label.setText(self.set_active_label(active))
+
+    def update_iip(self, ip):
+        if ip:
+            self.serverAddress.setText("Instance: %s" % ip)
+        else:
+            self.serverAddress.setText("")
+
+
+class IIPThread(QThread):
+    """
+    A worker thread dedicated to getting the current Gw2 map instance IP address.
+    """
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+    def run(self):
+        pass
+
+        while True:
+            self.emit(SIGNAL("instanceIP(QString)"), self.get_remote_ip('Gw2.exe'))
+            sleep(5)
+
+    def get_pid(self, process):
+        """
+        Returns the pid associated with the process name given.
+        :param process:
+        :return:
+        """
+        for proc in psutil.process_iter():
+            try:
+                if proc.name() == process:
+                    return proc.pid
+            except psutil.AccessDenied:
+                pass
+
+    def get_remote_ip(self, process):
+        """
+        Returns the most recent remote connection IP address for a given process.
+        :return:
+        """
+        gw2 = psutil.Process(self.get_pid(process))
+        # Get the most recent Gw2.exe remote connection
+        connections = gw2.connections()
+        if connections and len(connections) > 2:
+                return gw2.connections()[-1].raddr[0]
+        else:
+            return None
+
+
+class TileWidget(QWidget):
+
+    def __init__(self, background=None, overlay=None, *args):
+        self.background = background
+        self.overlay = overlay
+        super().__init__()
+
+    def paintEvent(self, event):
+        painter = QPainter()
+        painter.begin(self)
+        painter.drawPixmap(0, 0, QPixmap(self.background).scaled(self.size()))
+        painter.drawPixmap(0, 0, QPixmap(self.overlay).scaled(self.size()))
+        painter.end()
 
 
 if __name__ == '__main__':
-    colorama.init()  # Enables colored console print
-    gw2events = GW2EVENTS()
-    while True:
-        gw2events.build_events(console_out=True)
-        time.sleep(1)
-        gw2events.clear_console()
+
+    import sys
+    # Create the app
+    app = QApplication(sys.argv)
+    # Set the style
+    app.setStyle("plastique")
+    style = QFile(":/assets/stylesheets/main.qss")
+    style.open(QFile.ReadOnly)
+    app.setStyleSheet(str(style.readAll()))
+    # Create and show the main window
+    mainWin = MainWindow()
+    mainWin.show()
+
+    sys.exit(app.exec_())
