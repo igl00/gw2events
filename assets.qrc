@@ -2,6 +2,7 @@
     <qresource prefix="/">
         <file>assets/icons/Gw2.png</file>
         <file>assets/panels/overlay.png</file>
+        <file>assets/panels/active_overlay.png</file>
         <file>assets/panels/clawofjormag.png</file>
         <file>assets/panels/shadowbehemoth.png</file>
         <file>assets/panels/tequatl.png</file>

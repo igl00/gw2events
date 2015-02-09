@@ -5,7 +5,7 @@ import os
 from build_utils import resource_path
 
 
-class GW2EVENTS:
+class GW2Events(object):
     def __init__(self):
         self.events = self.get_events(resource_path('timed_bosses.json'))
         self.longest_title = 0

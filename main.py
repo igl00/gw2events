@@ -1,11 +1,10 @@
 import psutil
 from PySide.QtGui import *
 from PySide.QtCore import *
-from time import sleep
 
-from events import GW2EVENTS
+from events import GW2Events
 from flowLayout import FlowLayout
-from build_utils import resource_path
+import style
 import mainGui
 
 
@@ -17,18 +16,18 @@ class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
         self.setupUi(self)
 
         # Update the Gw2 Instance IP address
-        self.iipThread = IIPThread()
-
-        self.connect(self.iipThread, SIGNAL("instanceIP(QString)"), self.update_iip, Qt.DirectConnection)
-        self.iipThread.start()
+        iip_updater = IIPThread("Gw2.exe", self.serverAddress)
+        iip_timer = QTimer(self)
+        iip_timer.timeout.connect(lambda: iip_updater.start())
+        iip_timer.start(5000)
 
         # Build and update the event times
-        self.gw2events = GW2EVENTS()
+        self.gw2events = GW2Events()
         self.event_data = self.gw2events.events
 
-        timers = QTimer(self)
-        timers.timeout.connect(lambda: self.update_events(self.gw2events))
-        timers.start(1000)
+        update_timer = QTimer(self)
+        update_timer.timeout.connect(lambda: self.update_events(self.gw2events))
+        update_timer.start(1000)
 
         # Load custom font
         QFontDatabase.addApplicationFont(':/assets/fonts/Legacy Sans Bold.ttf')
@@ -44,9 +43,6 @@ class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
         # Build the panels
         self.build_panels(self.gw2events)
 
-        # Misc
-        self.actionCompact.activated.connect(self.toggle_details_panel)
-
     def build_panels(self, gw2events):
         events = gw2events.build_events()
 
@@ -59,9 +55,10 @@ class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
             panelRootDir = ":/assets/panels/%s"
             panelDir = panelRootDir % name + ".png"
             overlayDir = panelRootDir % "overlay.png"
+            activeOverlayDir = panelRootDir % "active_overlay.png"
 
             # Build a widget
-            widget = TileWidget(panelDir, overlayDir)
+            widget = TileWidget(panelDir, overlayDir, activeOverlayDir)
             widget.setMinimumSize(QSize(350, 150))
             widget.setMaximumSize(QSize(350, 150))
             widget.setContentsMargins(0, 0, 0, 0)
@@ -71,7 +68,7 @@ class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
             # Build the name label
             boss_label = QLabel(widget)
             boss_label.setText(boss)
-            boss_label.setFont(self.boss_font())
+            boss_label.setFont(style.boss_font())
             boss_label.setObjectName("%s_name_label" % name)
             boss_label.move(30, 112)
 
@@ -79,21 +76,12 @@ class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
             time_label = QLabel(widget)
             time_label.setText(self.format_time(time, average_time))
             time_label.setObjectName("%s_time_label" % name)
-            time_label.setFont(self.time_font())
-            time_label.setStyleSheet(self.color_time(active))
+            time_label.setFont(style.time_font())
+            time_label.setStyleSheet(style.color_time(active))
             time_label.move(270, 7)
-
-            # Build the active label
-            active_label = QLabel(widget)
-            active_label.setText(self.set_active_label(active))
-            active_label.setObjectName("%s_active_label" % name)
-            active_label.setFont(self.active_font())
-            active_label.setStyleSheet("color: rgb(177, 58, 58);")
-            active_label.move(95, 50)
 
             # Set layouts
             self.mainCanvas_layout.addWidget(widget)
-
 
     def rebuild_panels(self, gw2events):
         for widget in self.mainCanvas_widget.findChildren(QWidget):
@@ -107,14 +95,6 @@ class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
         detail_widget.setMaximumSize(QSize(350, 450))
         detail_widget.setContentsMargins(0, 0, 0, 0)
         detail_widget.setObjectName("details_widget")
-
-        # Build the active label
-        active_label = QLabel(detail_widget)
-        active_label.setText("Bam!!")
-        active_label.setObjectName("details_active_label")
-        active_label.setFont(self.active_font())
-        active_label.setStyleSheet("color: rgb(177, 58, 58);")
-        active_label.move(95, 50)
 
         # Add to the font of the flow layout
         self.mainCanvas_layout.addWidget(detail_widget)
@@ -131,43 +111,6 @@ class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
     def format_time(self, time, average_time):
         return self.gw2events.format_seconds(time, average_time)
 
-    def color_time(self, active):
-        if active:
-            return "color: rgb(177, 58, 58);"
-        else:
-            return "color: rgb(162, 147, 130);"
-
-    def time_font(self):
-        font = QFont("ITCLegacySans LT Book")
-        font.setStyleStrategy(QFont.PreferAntialias)
-        font.setPixelSize(18)
-        font.setBold(True)
-
-        return font
-
-    def boss_font(self):
-        font = QFont("Arial")
-        font.setStyleStrategy(QFont.PreferAntialias)
-        font.setPixelSize(14)
-        font.setBold(True)
-        font.setCapitalization(QFont.Capitalization(True))
-
-        return font
-
-    def active_font(self):
-        font = QFont("Arial")
-        font.setStyleStrategy(QFont.PreferAntialias)
-        font.setPixelSize(30)
-        font.setBold(True)
-
-        return font
-
-    def set_active_label(self, active):
-        if active:
-            return "In Progress"
-        else:
-            return ""
-
     def update_events(self, gw2events):
         events = gw2events.build_events()
         for event in events:
@@ -181,38 +124,31 @@ class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
                 if widget.active and not active:
                     self.rebuild_panels(self.gw2events)
                     break
+                elif active:
+                    widget.active = True
+                else:
+                    widget.active = False
 
             # Update labels
             time_label = self.findChild(QLabel, "%s_time_label" % name)
             if time_label:
                 time_label.setText(self.format_time(time, average_time))
-                time_label.setStyleSheet(self.color_time(active))
+                time_label.setStyleSheet(style.color_time(active))
                 widget.active = active
-
-            active_label = self.findChild(QLabel, "%s_active_label" % name)
-            if active_label:
-                active_label.setText(self.set_active_label(active))
-
-    def update_iip(self, ip):
-        if ip:
-            self.serverAddress.setText("Instance: %s" % ip)
-        else:
-            self.serverAddress.setText("")
 
 
 class IIPThread(QThread):
     """
     A worker thread dedicated to getting the current Gw2 map instance IP address.
     """
-    def __init__(self, parent=None):
+    def __init__(self, process, label, parent=None):
         super().__init__(parent)
+        self.process = process
+        self.label = label
 
     def run(self):
-        pass
-
-        while True:
-            self.emit(SIGNAL("instanceIP(QString)"), self.get_remote_ip('Gw2.exe'))
-            sleep(5)
+        ip = self.get_remote_ip(self.process)
+        self.update_iip(self.label, ip)
 
     def get_pid(self, process):
         """
@@ -235,17 +171,26 @@ class IIPThread(QThread):
         gw2 = psutil.Process(self.get_pid(process))
         # Get the most recent Gw2.exe remote connection
         connections = gw2.connections()
-        if connections and len(connections) > 2:
+
+        if connections and len(connections) > 2:  # The number of connections varies. 3-4 seems normal in game.
                 return gw2.connections()[-1].raddr[0]
         else:
             return None
 
+    def update_iip(self, label, ip):
+        if ip:
+            label.setText("Instance: %s" % ip)
+        else:
+            label.setText("")
+
 
 class TileWidget(QWidget):
 
-    def __init__(self, background=None, overlay=None, *args):
+    def __init__(self, background=None, overlay=None, active_overlay=None, *args):
         self.background = background
         self.overlay = overlay
+        self.active_overlay = active_overlay
+        self.active = False
         super().__init__()
 
     def paintEvent(self, event):
@@ -253,7 +198,10 @@ class TileWidget(QWidget):
         painter.begin(self)
         painter.drawPixmap(0, 0, QPixmap(self.background).scaled(self.size()))
         painter.drawPixmap(0, 0, QPixmap(self.overlay).scaled(self.size()))
+        if self.active:
+            painter.drawPixmap(0, 0, QPixmap(self.active_overlay).scaled(self.size()))
         painter.end()
+
 
 
 if __name__ == '__main__':
@@ -263,9 +211,9 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     # Set the style
     app.setStyle("plastique")
-    style = QFile(":/assets/stylesheets/main.qss")
-    style.open(QFile.ReadOnly)
-    app.setStyleSheet(str(style.readAll()))
+    styleSheet = QFile(":/assets/stylesheets/main.qss")
+    styleSheet.open(QFile.ReadOnly)
+    app.setStyleSheet(str(styleSheet.readAll()))
     # Create and show the main window
     mainWin = MainWindow()
     mainWin.show()
