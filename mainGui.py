@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'main.ui'
 #
-# Created: Fri Feb  6 14:28:26 2015
+# Created: Thu Feb 12 11:57:14 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -18,9 +18,7 @@ class Ui_MainWindow(object):
         icon.addPixmap(QtGui.QPixmap(":/assets/icons/Gw2.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         self.central_widget = QtGui.QWidget(MainWindow)
-        self.central_widget.setStyleSheet("QLabel {\n"
-"    color: rgb(162, 147, 130);\n"
-"}")
+        self.central_widget.setStyleSheet("")
         self.central_widget.setObjectName("central_widget")
         self.central_layout = QtGui.QVBoxLayout(self.central_widget)
         self.central_layout.setSpacing(0)
@@ -82,6 +80,9 @@ class Ui_MainWindow(object):
         self.actionAbout.setObjectName("actionAbout")
         self.actionCompact = QtGui.QAction(MainWindow)
         self.actionCompact.setObjectName("actionCompact")
+        self.actionAlway_On_Top = QtGui.QAction(MainWindow)
+        self.actionAlway_On_Top.setObjectName("actionAlway_On_Top")
+        self.menuFile.addAction(self.actionAlway_On_Top)
         self.menuFile.addAction(self.actionCompact)
         self.menuFile.addAction(self.actionSettings)
         self.menuFile.addSeparator()
@@ -104,5 +105,6 @@ class Ui_MainWindow(object):
         self.actionHelp.setText(QtGui.QApplication.translate("MainWindow", "Help", None, QtGui.QApplication.UnicodeUTF8))
         self.actionAbout.setText(QtGui.QApplication.translate("MainWindow", "About", None, QtGui.QApplication.UnicodeUTF8))
         self.actionCompact.setText(QtGui.QApplication.translate("MainWindow", "Compact Mode", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionAlway_On_Top.setText(QtGui.QApplication.translate("MainWindow", "Alway On Top", None, QtGui.QApplication.UnicodeUTF8))
 
 import assets_rc

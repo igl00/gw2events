@@ -4,7 +4,39 @@ QWidget
     background-color: #323232;
 }
 
-QLabel
+.inactive, .active
 {
     background-color: None;
+}
+
+QLabel
+{
+    color: rgb(162, 147, 130);
+    background-color: None;
+}
+
+QLabel[title="true"]
+{
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+QLabel[timer="true"]
+{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.active QLabel[title="true"]
+{
+    color: rgb(177, 58, 58);
+    font-size: 20px;
+}
+
+
+.active QLabel[timer="true"]
+{
+    color: rgb(177, 58, 58);
+    font-size: 18px;
 }

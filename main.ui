@@ -25,9 +25,7 @@
   </property>
   <widget class="QWidget" name="central_widget">
    <property name="styleSheet">
-    <string notr="true">QLabel {
-	color: rgb(162, 147, 130);
-}</string>
+    <string notr="true"/>
    </property>
    <layout class="QVBoxLayout" name="central_layout">
     <property name="spacing">
@@ -143,6 +141,7 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionAlway_On_Top"/>
     <addaction name="actionCompact"/>
     <addaction name="actionSettings"/>
     <addaction name="separator"/>
@@ -182,6 +181,11 @@
   <action name="actionCompact">
    <property name="text">
     <string>Compact Mode</string>
+   </property>
+  </action>
+  <action name="actionAlway_On_Top">
+   <property name="text">
+    <string>Alway On Top</string>
    </property>
   </action>
  </widget>
