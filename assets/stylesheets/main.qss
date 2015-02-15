@@ -40,3 +40,7 @@ QLabel[timer="true"]
     color: rgb(177, 58, 58);
     font-size: 18px;
 }
+
+a:link {
+    color: red;
+}

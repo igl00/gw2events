@@ -1,4 +1,7 @@
 # Compiles the qrc assets before starting the program
 import build_utils
-build_utils.compile_assets()
 import main
+
+build_utils.compile_assets()  # Compile the qrc assets
+print("Starting GW2 Events...")
+main.start_app()  # Start the app

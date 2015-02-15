@@ -5,7 +5,9 @@ from PySide.QtCore import *
 from events import GW2Events
 from flowLayout import FlowLayout
 import style
-import mainGui
+from ui import mainGui
+from ui import aboutGui
+from ui import settingsGui
 
 
 class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
@@ -15,11 +17,14 @@ class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
 
         self.setupUi(self)
 
+        # Restore settings from previous session
+        self.settings = QSettings("GW2Events", "igl00")
+        self.read_window_settings()
+
         # Update the Gw2 Instance IP address
         self.iip_updater = IIPThread("Gw2.exe", self.serverAddress)
-        iip_timer = QTimer(self)
-        iip_timer.timeout.connect(lambda: self.iip_updater.start())
-        iip_timer.start(5000)
+        self.iip_timer = QTimer(self)
+        self.iip_timer.timeout.connect(lambda: self.iip_updater.start())
 
         # Build and update the event times
         self.gw2events = GW2Events()
@@ -47,9 +52,19 @@ class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
         self.build_panels(self.gw2events)
 
         # Menu items
-        self.actionAlway_On_Top.triggered.connect(self.toggle_stay_on_top)  # Breaks the window
+        # self.actionAlway_On_Top.triggered.connect(self.toggle_stay_on_top)  # Need to recreate window for it to work.
+        self.actionAbout.triggered.connect(self.about_window)
+        self.actionSettings.triggered.connect(self.settings_window)
+        self.actionExit.triggered.connect(self.close)
+
+        self.read_settings()
 
     def build_panels(self, gw2events):
+        '''
+        Build the boss panels
+        :param gw2events:
+        :return:
+        '''
         events = gw2events.build_events()
 
         for event in events:
@@ -70,45 +85,57 @@ class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
             widget.setMaximumSize(QSize(350, 150))
             widget.setContentsMargins(0, 0, 0, 0)
 
-            self.connect(widget, SIGNAL("clicked()"), self.click_me)
+            self.connect(widget, SIGNAL("clicked(QString)"), self.toggle_details_panel)
 
             # Set layouts
             self.mainCanvas_layout.addWidget(widget)
 
-    def click_me(self):
-        print("Clicked!")
-
     def rebuild_panels(self, gw2events):
+        '''
+        Delete then recreate the boss panels
+        :param gw2events:
+        :return:
+        '''
         for widget in self.mainCanvas_widget.findChildren(QWidget):
             widget.deleteLater()
 
         self.build_panels(gw2events)
 
-        for widget in self.mainCanvas_widget.findChildren(QWidget):
-            widget.setStyleSheet("/* */")
-
-
     def build_details_panel(self, widget_name=None):
-        #widget = self.findChild(QWidget, "%s_widget" % widget_name)
+        '''
+        Create the details panel
+        :param widget_name:
+        :return:
+        '''
         detail_widget = QWidget()
         detail_widget.setMinimumSize(QSize(350, 450))
         detail_widget.setMaximumSize(QSize(350, 450))
         detail_widget.setContentsMargins(0, 0, 0, 0)
         detail_widget.setObjectName("details_widget")
+        detail_widget.spawned_by = widget_name
 
         # Add to the font of the flow layout
         self.mainCanvas_layout.addWidget(detail_widget)
 
         return detail_widget
 
-    def toggle_details_panel(self):
-        details_widget = self.findChild(QWidget, "details_widget")
-        if details_widget.isVisible():
-            details_widget.hide()
+    def toggle_details_panel(self, widget):
+        '''
+        Show or hide the details panel depending on its current state.
+        :param widget:
+        :return:
+        '''
+        if self.details.isVisible():
+            self.details.hide()
         else:
-            details_widget.show()
+            self.details.show()
 
     def update_events(self, gw2events):
+        '''
+        Updates the times on the boss panels and calls a rebuild when the order needs to be changed.
+        :param gw2events:
+        :return:
+        '''
         events = gw2events.build_events()
         for event in events:
             boss, time, active = event
@@ -132,16 +159,89 @@ class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
                 # Update the current time
                 widget.update_timer(time, average_time)
 
+    def start_iip_timer(self, run, frequency):
+        '''
+        Starts or stops the instace ip timer.
+        :param run:
+        :param frequency:
+        :return:
+        '''
+        self.iip_timer.stop()
+        if run == "true":
+            self.iip_timer.start(frequency)
+        else:
+            self.serverAddress.setText("")
+
     def set_style_sheet(self):
+        '''
+        Apply the main css styles to the window.
+        :return:
+        '''
         style_sheet = QFile(":/assets/stylesheets/main.qss")
         style_sheet.open(QFile.ReadOnly)
         self.setStyleSheet(str(style_sheet.readAll()))
 
-    def toggle_stay_on_top(self):
-        print(self.windowFlags())
-        # self.setWindowFlags(Qt.WindowStaysOnTopHint)
+    def settings_window(self):
+        '''
+        Shows the settings window and runs the read_settings() method if the settings are accepted.
+        :return:
+        '''
+        self.settings_window = SettingsWindow(self, self.settings)
+        self.settings_window.show()
+        self.settings_window.connect(self.settings_window, SIGNAL("accepted()"), self.read_settings)
 
+    def read_window_settings(self):
+        '''
+        Reads the saved window state and applies it to the current window.
+        :return:
+        '''
+        settings = self.settings
+        settings.beginGroup("MainWindow")
+        try:
+            self.resize(settings.value("size"))
+            self.move(settings.value("pos"))
+        except TypeError:
+            pass
+        self.settings.endGroup()
 
+    def write_window_settings(self):
+        '''
+        Saves the windows current state(size, position, ...)
+        :return:
+        '''
+        settings = self.settings
+        settings.beginGroup("MainWindow")
+        settings.setValue("size", self.size())
+        settings.setValue("pos", self.pos())
+        settings.endGroup()
+
+    def read_settings(self):
+        settings = self.settings
+        settings.beginGroup("Settings")
+        try:
+            self.start_iip_timer(settings.value("iip"), settings.value("iip_frequency") * 1000)
+        except TypeError as error:
+            print(error)
+            self.start_iip_timer(True, 5000)
+        settings.endGroup()
+
+    def about_window(self):
+        '''
+        Shows the about window.
+        :return:
+        '''
+        self.about_window = AboutWindow(self)
+        self.about_window.show()
+
+    def closeEvent(self, event):
+        '''
+        Over-rides the default close event to enable the saving of the
+        window position and size before it closes.
+        :param event:
+        :return:
+        '''
+        self.write_window_settings()
+        event.accept()
 
 class IIPThread(QThread):
     """
@@ -278,22 +378,61 @@ class BossPanel(QWidget):
     def format_time(self, time, average_time):
         return GW2Events().format_seconds(time, average_time)
 
+    def mouseReleaseEvent(self, event):
+        self.emit(SIGNAL("clicked(QString)"), self.objectName())
+
     def __str__(self):
         return self.objectName()
 
 
-if __name__ == '__main__' or __name__ == "main":
+class AboutWindow(QDialog, aboutGui.Ui_About):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
 
+
+class SettingsWindow(QDialog, settingsGui.Ui_Settings):
+    def __init__(self, parent, settings):
+        super().__init__(parent)
+        self.setupUi(self)
+        self.connect(self, SIGNAL("accepted()"), self.write_settings)
+
+        self.settings = settings
+
+        self.read_settings()
+
+    def read_settings(self):
+        self.settings.beginGroup("Settings")
+        try:
+            if self.settings.value("iip") == "false":
+                self.iipUdate_box.setChecked(False)
+            self.iipUpdate_spinBox.setValue(int(self.settings.value("iip_frequency")))
+        except TypeError as error:
+            print(error)
+
+    def write_settings(self):
+        iip_update = self.iipUdate_box.isChecked()
+        iip_update_every = self.iipUpdate_spinBox.value()
+
+        self.settings.beginGroup("Settings")
+        self.settings.setValue("iip", iip_update)
+        self.settings.setValue("iip_frequency", iip_update_every)
+        self.settings.endGroup()
+
+
+def start_app():
     import sys
+
     # Create the app
     app = QApplication(sys.argv)
     # Set the style
     app.setStyle("plastique")
-    # styleSheet = QFile(":/assets/stylesheets/main.qss")
-    # styleSheet.open(QFile.ReadOnly)
-    # app.setStyleSheet(str(styleSheet.readAll()))
     # Create and show the main window
     mainWin = MainWindow()
     mainWin.show()
 
     sys.exit(app.exec_())
+
+
+if __name__ == '__main__':
+    start_app()
