@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'main.ui'
+# Form implementation generated from reading ui file './ui\main.ui'
 #
-# Created: Fri Feb 13 12:26:10 2015
+# Created: Sun Feb 15 21:14:52 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -55,6 +55,7 @@ class Ui_MainWindow(object):
         self.serverAddress_layout.addItem(spacerItem)
         self.serverAddress = QtGui.QLabel(self.serverAddress_widget)
         self.serverAddress.setText("")
+        self.serverAddress.setTextInteractionFlags(QtCore.Qt.LinksAccessibleByMouse|QtCore.Qt.TextSelectableByMouse)
         self.serverAddress.setObjectName("serverAddress")
         self.serverAddress_layout.addWidget(self.serverAddress)
         spacerItem1 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)

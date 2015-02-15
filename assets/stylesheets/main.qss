@@ -44,3 +44,13 @@ QLabel[timer="true"]
 a:link {
     color: red;
 }
+
+QDialog QLabel
+{
+    color: #b1b1b1;
+}
+
+QDialog QLabel:disabled
+{
+    color: #323232;
+}

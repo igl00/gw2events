@@ -1,4 +1,5 @@
 import psutil
+import sys
 from PySide.QtGui import *
 from PySide.QtCore import *
 
@@ -8,13 +9,14 @@ import style
 from ui import mainGui
 from ui import aboutGui
 from ui import settingsGui
-
+from logger import log
 
 class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
 
     def __init__(self, parent=None):
         super().__init__(parent)
 
+        # Create the ui
         self.setupUi(self)
 
         # Restore settings from previous session
@@ -45,7 +47,7 @@ class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
         self.mainCanvas_widget.setLayout(self.mainCanvas_layout)
 
         # Add the details widget as the first flow item
-        self.details = self.build_details_panel()
+        self.build_details_panel()
         self.details.hide()
 
         # Build the panels
@@ -53,8 +55,8 @@ class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
 
         # Menu items
         # self.actionAlway_On_Top.triggered.connect(self.toggle_stay_on_top)  # Need to recreate window for it to work.
-        self.actionAbout.triggered.connect(self.about_window)
-        self.actionSettings.triggered.connect(self.settings_window)
+        self.actionAbout.triggered.connect(self.open_about_window)
+        self.actionSettings.triggered.connect(self.open_settings_window)
         self.actionExit.triggered.connect(self.close)
 
         self.read_settings()
@@ -99,7 +101,9 @@ class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
         for widget in self.mainCanvas_widget.findChildren(QWidget):
             widget.deleteLater()
 
+        self.build_details_panel()
         self.build_panels(gw2events)
+        self.details.hide()
 
     def build_details_panel(self, widget_name=None):
         '''
@@ -117,7 +121,7 @@ class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
         # Add to the font of the flow layout
         self.mainCanvas_layout.addWidget(detail_widget)
 
-        return detail_widget
+        self.details = detail_widget
 
     def toggle_details_panel(self, widget):
         '''
@@ -125,10 +129,12 @@ class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
         :param widget:
         :return:
         '''
-        if self.details.isVisible():
-            self.details.hide()
-        else:
-            self.details.show()
+        log.debug(self.details)
+        if self.details:
+            if self.details.isVisible():
+                self.details.hide()
+            else:
+                self.details.show()
 
     def update_events(self, gw2events):
         '''
@@ -181,7 +187,7 @@ class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
         style_sheet.open(QFile.ReadOnly)
         self.setStyleSheet(str(style_sheet.readAll()))
 
-    def settings_window(self):
+    def open_settings_window(self):
         '''
         Shows the settings window and runs the read_settings() method if the settings are accepted.
         :return:
@@ -200,8 +206,8 @@ class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
         try:
             self.resize(settings.value("size"))
             self.move(settings.value("pos"))
-        except TypeError:
-            pass
+        except TypeError as error:
+            log.error(error)
         self.settings.endGroup()
 
     def write_window_settings(self):
@@ -221,11 +227,11 @@ class MainWindow(QMainWindow, mainGui.Ui_MainWindow):
         try:
             self.start_iip_timer(settings.value("iip"), settings.value("iip_frequency") * 1000)
         except TypeError as error:
-            print(error)
+            log.error(error)
             self.start_iip_timer(True, 5000)
         settings.endGroup()
 
-    def about_window(self):
+    def open_about_window(self):
         '''
         Shows the about window.
         :return:
@@ -353,6 +359,7 @@ class BossPanel(QWidget):
 
     def create_timer(self, time, average_time):
         time_label = QLabel(self)
+        time_label.setFixedWidth(70)
         time_label.setText(self.format_time(time, average_time))
         time_label.setProperty("timer", "true")
 
@@ -361,6 +368,7 @@ class BossPanel(QWidget):
     def style_timer(self):
         self.timer.setFont(style.time_font())
         if self.active:
+            self.timer.setFixedWidth(75)
             self.timer.move(141, 78)
         else:
             self.timer.move(270, 7)
@@ -408,7 +416,7 @@ class SettingsWindow(QDialog, settingsGui.Ui_Settings):
                 self.iipUdate_box.setChecked(False)
             self.iipUpdate_spinBox.setValue(int(self.settings.value("iip_frequency")))
         except TypeError as error:
-            print(error)
+            log.error(error)
 
     def write_settings(self):
         iip_update = self.iipUdate_box.isChecked()
@@ -421,8 +429,6 @@ class SettingsWindow(QDialog, settingsGui.Ui_Settings):
 
 
 def start_app():
-    import sys
-
     # Create the app
     app = QApplication(sys.argv)
     # Set the style
