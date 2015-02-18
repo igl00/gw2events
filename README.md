@@ -1,34 +1,54 @@
-#Guild Wars 2 World Boss Timer
-------------
+#GW2 Events
 
 
-##Input
-####**_"timed_bosses.json"_** 
-A file containing the timed bosses details and UTC spawn times in the following format:
+![](GW2Events.png)
     
-    "Karka Queen" : {
-        "category" : "Hardcore",
-        "rank" : "Legendary",
-        "location" : "Southsun Cove",
-        "waypoint" : {
-            "name" : "Pearl Islet",
-            "link" : "[&BNUGAAA=]"},
-        "wiki" : "http://wiki.guildwars2.com/wiki/Defeat_the_Karka_Queen_threatening_the_settlements",
-        "average_time" : "120",
-        "times" : ["02:00", "06:00", "10:30", "15:00", "18:00", "23:00"],
-        "loot" : [
-            {"Dragonite Ore" : "30"},
-            {"Rare or Exotic Items" : "2"},
-            {"Champion Loot Bags" : "2"}]
-    }
+Guild Wars 2 Events is a "World Boss" event timer for your desktop. It strives to maintain the GW2 style while providing
+and easy to use timer interface.
 
-##Output
-* Time till next boss
-* Encounter/Total Encounters (Derived from the position of the current time in the total set of that bosses times)
-* Special loot available?
+You can find a working 64x build here: >Link goes here< 
 
 
-#TODO
-* Sort the active times
-* Set the focus of the window to the main panel when it open so that scrolling works straight away
-* Finish the menu items
+## To Build the Project
+
+This project will require Python 3 and optionally virtualenv==1.11 and virtualenvwrapper-win==1.1.5
+
+
+* Create a new virtualenv folder:
+
+```
+mkvirtualenv <project_name>
+```
+
+* Activate it:
+
+```
+workon <project_name>
+```
+
+* Clone the GW2Events repository:
+
+```
+git clone https://github.com/igl00/gw2events.git
+```
+
+* Install the requirements:
+
+```
+# pywin32==219 may need to be downloaded manually from:
+pip install -r requirements.txt
+```
+
+###Compiling the project
+
+* Run pyinstaller(is should be in your PATH):
+```
+pyinstaller gw2events.spec
+```
+
+
+##Software used
+
+* [PySide](http://qt-project.org/wiki/PySide)
+* [PyInstaller](https://github.com/pyinstaller/pyinstaller/wiki)
+* [PsUtil](https://pypi.python.org/pypi/psutil)
