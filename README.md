@@ -1,7 +1,7 @@
 #GW2 Events
 
 
-![](GW2Events.png)
+![](gw2events_thumb.png)
     
 Guild Wars 2 Events is a "World Boss" event timer for your desktop. It strives to maintain the GW2 style while providing
 and easy to use timer interface.
