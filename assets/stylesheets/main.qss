@@ -1,49 +1,67 @@
-QWidget
+/*GENERAL*/
+
+QWidget, QToolTip
 {
     color: #b1b1b1;
     background-color: #323232;
+    font-family: "Arial";
+
 }
 
-.inactive, .active
+QToolTip
 {
-    background-color: None;
+    margin: 0px 2px;
+    border: None;
 }
 
 QLabel
 {
-    color: rgb(162, 147, 130);
     background-color: None;
 }
 
-QLabel[title="true"]
+
+/*BOSS PANEL*/
+
+.bossPanel
+{
+    background-color: None;
+}
+
+.bossPanel QLabel
+{
+    color: rgb(162, 147, 130);
+    font-weight: bold;
+    background-color: None;
+}
+
+.bossPanel QLabel#title_label
 {
     font-size: 14px;
-    font-weight: bold;
     text-transform: uppercase;
 }
 
-QLabel[timer="true"]
+.bossPanel QLabel#time_label
 {
+    font-family: "ITCLegacySans LT Book";
     font-size: 18px;
-    font-weight: bold;
 }
 
-.active QLabel[title="true"]
+.bossPanel QLabel#active_title_label
 {
     color: rgb(177, 58, 58);
     font-size: 20px;
 }
 
-
-.active QLabel[timer="true"]
+.bossPanel QLabel#active_time_label
 {
+    font-family: "ITCLegacySans LT Book";
     color: rgb(177, 58, 58);
+    font-weight: regular;
     font-size: 18px;
 }
 
-a:link {
-    color: red;
-}
+
+/*DIALOG WINDOWS*/
 
 QDialog QLabel
 {
@@ -53,4 +71,63 @@ QDialog QLabel
 QDialog QLabel:disabled
 {
     color: #323232;
+}
+
+
+/*DETAILS PANEL*/
+
+.detailsPanel
+{
+    color: rgb(199, 199, 199);
+}
+
+.detailsPanel QLabel#boss_name_label
+{
+    font-family: "GWTwoFont Version 1.1";
+}
+
+.detailsPanel QLabel#level_name_label
+{
+    font-size: 14px;
+}
+
+.detailsPanel QLabel#level_label
+{
+    font-size: 14px;
+    font-family: "ITCLegacySans LT Book";
+    font-weight: bold;
+}
+
+.detailsPanel QLabel#loot_name_label, .detailsPanel QLabel#waypoint_label
+{
+    font-family: "GWTwoFont Version 1.1";
+    font-size: 20px;
+}
+
+.detailsPanel QLabel#waypoint_name_label, .detailsPanel QLabel#waypoint_link_label
+{
+    font-size: 12px;
+}
+
+
+#close_button
+{
+    border-image: url(:/assets/panels/details/close_icon.png);
+    background: None;
+}
+
+#close_button::hover
+{
+    border-image: url(:/assets/panels/details/close_hover_icon.png);
+}
+
+#waypoint_copy_button
+{
+    border-image: url(:/assets/panels/details/copy_icon.png);
+    background: None;
+}
+
+#waypoint_copy_button::hover
+{
+    border-image: url(:/assets/panels/details/copy_hover_icon.png);
 }

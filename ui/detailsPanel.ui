@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DetailsPanel</class>
+ <widget class="QWidget" name="DetailsPanel">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>350</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>350</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>350</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">#details_panel_widget 
+{
+	background-image: url(:/assets/panels/details/details_panel_overlay.png);
+}</string>
+  </property>
+  <widget class="QLabel" name="boss_name_label">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>29</y>
+     <width>350</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Boss Name</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="level_name_label">
+   <property name="geometry">
+    <rect>
+     <x>146</x>
+     <y>73</y>
+     <width>46</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Level:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="level_label">
+   <property name="geometry">
+    <rect>
+     <x>182</x>
+     <y>74</y>
+     <width>21</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>#</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QWidget" name="loot_widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>75</x>
+     <y>460</y>
+     <width>200</width>
+     <height>120</height>
+    </rect>
+   </property>
+   <widget class="QLabel" name="loot_name_label">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>5</y>
+      <width>200</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Loot</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QWidget" name="loot_items_widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>-1</x>
+      <y>29</y>
+      <width>201</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <widget class="QWidget" name="horizontalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>201</width>
+       <height>91</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="loot_items_layout">
+      <property name="spacing">
+       <number>16</number>
+      </property>
+     </layout>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="close_button">
+   <property name="geometry">
+    <rect>
+     <x>325</x>
+     <y>7</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="waypoint_label">
+   <property name="geometry">
+    <rect>
+     <x>115</x>
+     <y>280</y>
+     <width>120</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Waypoint</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="waypoint_name_label">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>310</y>
+     <width>141</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="waypoint_link_label">
+   <property name="geometry">
+    <rect>
+     <x>175</x>
+     <y>310</y>
+     <width>81</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+   <property name="textInteractionFlags">
+    <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="waypoint_copy_button">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>312</y>
+     <width>18</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="../assets.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>close_button</sender>
+   <signal>released()</signal>
+   <receiver>DetailsPanel</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>329</x>
+     <y>19</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>174</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

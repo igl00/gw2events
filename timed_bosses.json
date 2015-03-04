@@ -2,6 +2,7 @@
     "Tequatl" : {
         "category" : "Hardcore",
         "rank" : "Epic",
+        "level" : "65",
         "location" : "Sparkfly Fen",
         "waypoint" : {
             "name" : "Splintered Coast",
@@ -16,7 +17,8 @@
     },
     "Karka Queen" : {
         "category" : "Hardcore",
-        "rank" : "Legendary",
+        "rank" : "Epic",
+        "level" : "80",
         "location" : "Southsun Cove",
         "waypoint" : {
             "name" : "Pearl Islet",
@@ -32,6 +34,7 @@
     "Taidha Covington" : {
         "category" : "Standard",
         "rank" : "Legendary",
+        "level" : "50",
         "location" : "Bloodtide Coast",
         "waypoint" : {
             "name" : "Laughing Gull Island",
@@ -46,6 +49,7 @@
     "The Frozen Maw" : {
         "category" : "Low-level",
         "rank" : "Champion",
+        "level" : "10",
         "location" : "Wayfarer Foothills",
         "waypoint" : {
             "name" : "Frusenfell Creek",
@@ -59,7 +63,8 @@
     },
     "Megadestroyer" : {
         "category" : "Standard",
-        "rank" : "Champion",
+        "rank" : "Legendary",
+        "level" : "66",
         "location" : "Mount Maelstrom",
         "waypoint" : {
             "name" : "Maelstrom's Bile",
@@ -68,11 +73,13 @@
         "average_time" : "450",
         "times" : ["00:30", "03:30", "06:30", "09:30", "12:30", "15:30", "18:30", "21:30"],
         "loot" : [
+            {"Dragonite Ore" : "3-5"},
             {"Rare or Exotic Items" : "1"}]
     },
     "Fire Elemental" : {
         "category" : "Low-level",
-        "rank" : "Epic",
+        "rank" : "Champion",
+        "level" : "15",
         "location" : "Metrica Province",
         "waypoint" : {
             "name" : "Muridian Uplands",
@@ -87,7 +94,8 @@
     },
     "The Shatterer" : {
         "category" : "Standard",
-        "rank" : "Epic",
+        "rank" : "Legendary",
+        "level" : "50",
         "location" : "Blazeridge Steppes",
         "waypoint" : {
             "name" : "Lowland Burns",
@@ -102,6 +110,7 @@
     "Evolved Jungle Wurm" : {
         "category" : "Hardcore",
         "rank" : "Epic",
+        "level" : "55",
         "location" : "Bloodtide Coast",
         "waypoint" : {
             "name" : "Firth of Revanion",
@@ -116,10 +125,11 @@
     },
     "Jungle Wurm" : {
         "category" : "Low-level",
-        "rank" : "Epic",
+        "rank" : "Champion",
+        "level" : "15",
         "location" : "Caledon Forest",
         "waypoint" : {
-            "name" : "Wychmire Swamp",
+            "name" : "Twilight Arbor",
             "link" : "[&BEEFAAA=]"},
         "wiki" : "http://wiki.guildwars2.com/wiki/Defeat_the_great_jungle_wurm",
         "average_time" : "180",
@@ -130,7 +140,8 @@
     },
     "Modniir Ulgoth" : {
         "category" : "Standard",
-        "rank" : "Champion",
+        "rank" : "Legendary",
+        "level" : "43",
         "location" : "Harathi Hinterlands",
         "waypoint" : {
             "name" : "Modniir Gorge",
@@ -145,7 +156,8 @@
     },
     "Shadow Behemoth" : {
         "category" : "Low-level",
-        "rank" : "Epic",
+        "rank" : "Champion",
+        "level" : "15",
         "location" : "Queensdale",
         "waypoint" : {
             "name" : "Godslost Swamp",
@@ -159,7 +171,8 @@
     },
     "Gollem Mark II" : {
         "category" : "Standard",
-        "rank" : "Epic",
+        "rank" : "Legendary",
+        "level" : "68",
         "location" : "Mount Maelstrom",
         "waypoint" : {
             "name" : "Whitland Flats",
@@ -174,7 +187,8 @@
     },
     "Claw of Jormag" : {
         "category" : "Standard",
-        "rank" : "Epic",
+        "rank" : "Legendary",
+        "level" : "80",
         "location" : "Frostgorge Sound",
         "waypoint" : {
             "name" : "Earthshake Basin",

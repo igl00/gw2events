@@ -16,23 +16,23 @@ def resource_path(relative_path):
 def compile_assets():
     '''Compiles all *.qrc files in the directory and subdirectories to *_rc.py files'''
 
-    print("Compiling assets...")
+    print("Rebuilding asset(qrc) file...")
     for dirpath, dirnames, filenames, in os.walk("."):
         for filename in [f for f in filenames if f.endswith(".qrc")]:
             call(["C:\\Python34\\Lib\\site-packages\\PySide\\pyside-rcc.exe", "-py3",
                  os.path.join(dirpath, filename),
                  "-o", os.path.join(dirpath, filename.split(".")[0] + "_rc.py")])
-    print("Assets compiled!")
+    print("Asset build complete!")
 
 def compile_ui():
     '''Compiles the ui files into pyside python files.'''
     for dirpath, dirnames, filenames, in os.walk("./ui"):
         for filename in [f for f in filenames if f.endswith(".ui")]:
-            print("Compiling %s" % filename)
+            print("Converting: %s" % filename)
             call(["C:\\Python34\\Scripts\\pyside-uic.exe",
                  os.path.join(dirpath, filename),
                  "-o", os.path.join(dirpath, filename.split(".")[0] + "Gui.py")])
-    print("Ui Compiled!")
+    print("Ui build complete!")
 
 if __name__ == '__main__':
     compile_ui()

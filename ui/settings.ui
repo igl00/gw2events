@@ -29,7 +29,7 @@
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
   </widget>
-  <widget class="QGroupBox" name="iipUdate_box">
+  <widget class="QGroupBox" name="update_ip_box">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -44,7 +44,7 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
-   <widget class="QSpinBox" name="iipUpdate_spinBox">
+   <widget class="QSpinBox" name="update_ip_spinBox">
     <property name="geometry">
      <rect>
       <x>150</x>
@@ -66,7 +66,7 @@
      <number>5</number>
     </property>
    </widget>
-   <widget class="QLabel" name="iipUpdate_label">
+   <widget class="QLabel" name="update_ip_label">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -80,7 +80,7 @@
     </property>
    </widget>
   </widget>
-  <widget class="QTextEdit" name="textEdit">
+  <widget class="QTextEdit" name="note_textBox">
    <property name="geometry">
     <rect>
      <x>20</x>

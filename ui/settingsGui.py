@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './ui\settings.ui'
 #
-# Created: Sun Feb 15 21:14:52 2015
+# Created: Fri Feb 27 15:11:20 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -18,26 +18,26 @@ class Ui_Settings(object):
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
-        self.iipUdate_box = QtGui.QGroupBox(Settings)
-        self.iipUdate_box.setGeometry(QtCore.QRect(10, 10, 291, 71))
-        self.iipUdate_box.setCheckable(True)
-        self.iipUdate_box.setObjectName("iipUdate_box")
-        self.iipUpdate_spinBox = QtGui.QSpinBox(self.iipUdate_box)
-        self.iipUpdate_spinBox.setGeometry(QtCore.QRect(150, 30, 121, 22))
-        self.iipUpdate_spinBox.setMinimum(1)
-        self.iipUpdate_spinBox.setMaximum(99999)
-        self.iipUpdate_spinBox.setProperty("value", 5)
-        self.iipUpdate_spinBox.setObjectName("iipUpdate_spinBox")
-        self.iipUpdate_label = QtGui.QLabel(self.iipUdate_box)
-        self.iipUpdate_label.setGeometry(QtCore.QRect(20, 30, 111, 20))
-        self.iipUpdate_label.setObjectName("iipUpdate_label")
-        self.textEdit = QtGui.QTextEdit(Settings)
-        self.textEdit.setGeometry(QtCore.QRect(20, 90, 271, 51))
-        self.textEdit.setFrameShape(QtGui.QFrame.NoFrame)
-        self.textEdit.setAcceptRichText(False)
-        self.textEdit.setCursorWidth(0)
-        self.textEdit.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
-        self.textEdit.setObjectName("textEdit")
+        self.update_ip_box = QtGui.QGroupBox(Settings)
+        self.update_ip_box.setGeometry(QtCore.QRect(10, 10, 291, 71))
+        self.update_ip_box.setCheckable(True)
+        self.update_ip_box.setObjectName("update_ip_box")
+        self.update_ip_spinBox = QtGui.QSpinBox(self.update_ip_box)
+        self.update_ip_spinBox.setGeometry(QtCore.QRect(150, 30, 121, 22))
+        self.update_ip_spinBox.setMinimum(1)
+        self.update_ip_spinBox.setMaximum(99999)
+        self.update_ip_spinBox.setProperty("value", 5)
+        self.update_ip_spinBox.setObjectName("update_ip_spinBox")
+        self.update_ip_label = QtGui.QLabel(self.update_ip_box)
+        self.update_ip_label.setGeometry(QtCore.QRect(20, 30, 111, 20))
+        self.update_ip_label.setObjectName("update_ip_label")
+        self.note_textBox = QtGui.QTextEdit(Settings)
+        self.note_textBox.setGeometry(QtCore.QRect(20, 90, 271, 51))
+        self.note_textBox.setFrameShape(QtGui.QFrame.NoFrame)
+        self.note_textBox.setAcceptRichText(False)
+        self.note_textBox.setCursorWidth(0)
+        self.note_textBox.setTextInteractionFlags(QtCore.Qt.NoTextInteraction)
+        self.note_textBox.setObjectName("note_textBox")
 
         self.retranslateUi(Settings)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL("accepted()"), Settings.accept)
@@ -46,10 +46,10 @@ class Ui_Settings(object):
 
     def retranslateUi(self, Settings):
         Settings.setWindowTitle(QtGui.QApplication.translate("Settings", "Settings", None, QtGui.QApplication.UnicodeUTF8))
-        self.iipUdate_box.setTitle(QtGui.QApplication.translate("Settings", "Update Instance IP", None, QtGui.QApplication.UnicodeUTF8))
-        self.iipUpdate_spinBox.setSuffix(QtGui.QApplication.translate("Settings", "s", None, QtGui.QApplication.UnicodeUTF8))
-        self.iipUpdate_label.setText(QtGui.QApplication.translate("Settings", "Update every:", None, QtGui.QApplication.UnicodeUTF8))
-        self.textEdit.setHtml(QtGui.QApplication.translate("Settings", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+        self.update_ip_box.setTitle(QtGui.QApplication.translate("Settings", "Update Instance IP", None, QtGui.QApplication.UnicodeUTF8))
+        self.update_ip_spinBox.setSuffix(QtGui.QApplication.translate("Settings", "s", None, QtGui.QApplication.UnicodeUTF8))
+        self.update_ip_label.setText(QtGui.QApplication.translate("Settings", "Update every:", None, QtGui.QApplication.UnicodeUTF8))
+        self.note_textBox.setHtml(QtGui.QApplication.translate("Settings", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"

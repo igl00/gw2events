@@ -138,7 +138,7 @@ if __name__ == '__main__':
     import time
     colorama.init()  # Enables colored console print
 
-    gw2events = GW2EVENTS()
+    gw2events = GW2Events()
     while True:
         gw2events.build_events(console_out=True)
         time.sleep(1)

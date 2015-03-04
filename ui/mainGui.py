@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './ui\main.ui'
 #
-# Created: Sun Feb 15 21:14:52 2015
+# Created: Fri Feb 27 15:11:20 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -65,6 +65,7 @@ class Ui_MainWindow(object):
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setEnabled(True)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1070, 21))
+        self.menubar.setNativeMenuBar(True)
         self.menubar.setObjectName("menubar")
         self.menuFile = QtGui.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")

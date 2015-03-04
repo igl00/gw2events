@@ -1,22 +1,42 @@
 <!DOCTYPE RCC><RCC version="1.0">
     <qresource prefix="/">
         <file>assets/icons/Gw2.png</file>
-        <file>assets/panels/overlay.png</file>
-        <file>assets/panels/active_overlay.png</file>
-        <file>assets/panels/clawofjormag.png</file>
-        <file>assets/panels/shadowbehemoth.png</file>
-        <file>assets/panels/tequatl.png</file>
-        <file>assets/panels/taidhacovington.png</file>
-        <file>assets/panels/thefrozenmaw.png</file>
-        <file>assets/panels/megadestroyer.png</file>
-        <file>assets/panels/fireelemental.png</file>
-        <file>assets/panels/theshatterer.png</file>
-        <file>assets/panels/evolvedjunglewurm.png</file>
-        <file>assets/panels/junglewurm.png</file>
-        <file>assets/panels/modniirulgoth.png</file>
-        <file>assets/panels/karkaqueen.png</file>
-        <file>assets/panels/gollemmarkii.png</file>
+        <file>assets/panels/boss/overlay.png</file>
+        <file>assets/panels/boss/active_overlay.png</file>
+        <file>assets/panels/boss/clawofjormag.png</file>
+        <file>assets/panels/boss/shadowbehemoth.png</file>
+        <file>assets/panels/boss/tequatl.png</file>
+        <file>assets/panels/boss/taidhacovington.png</file>
+        <file>assets/panels/boss/thefrozenmaw.png</file>
+        <file>assets/panels/boss/megadestroyer.png</file>
+        <file>assets/panels/boss/fireelemental.png</file>
+        <file>assets/panels/boss/theshatterer.png</file>
+        <file>assets/panels/boss/evolvedjunglewurm.png</file>
+        <file>assets/panels/boss/junglewurm.png</file>
+        <file>assets/panels/boss/modniirulgoth.png</file>
+        <file>assets/panels/boss/karkaqueen.png</file>
+        <file>assets/panels/boss/gollemmarkii.png</file>
         <file>assets/fonts/Legacy Sans Bold.ttf</file>
+        <file>assets/fonts/GWTwoFont1p1.ttf</file>
         <file>assets/stylesheets/main.qss</file>
+        <file>assets/panels/details/details_panel.png</file>
+        <file>assets/panels/details/icon_dragonite_ore.png</file>
+        <file>assets/panels/details/icon_champion_loot_bags.png</file>
+        <file>assets/panels/details/icon_rare_or_exotic_items.png</file>
+        <file>assets/panels/details/map_megadestroyer.png</file>
+        <file>assets/panels/details/map_shadowbehemoth.png</file>
+        <file>assets/panels/details/map_thefrozenmaw.png</file>
+        <file>assets/panels/details/map_tequatl.png</file>
+        <file>assets/panels/details/map_clawofjormag.png</file>
+        <file>assets/panels/details/map_fireelemental.png</file>
+        <file>assets/panels/details/map_taidhacovington.png</file>
+        <file>assets/panels/details/map_junglewurm.png</file>
+        <file>assets/panels/details/map_modniirulgoth.png</file>
+        <file>assets/panels/details/map_theshatterer.png</file>
+        <file>assets/panels/details/map_gollemmarkii.png</file>
+        <file>assets/panels/details/close_icon.png</file>
+        <file>assets/panels/details/close_hover_icon.png</file>
+        <file>assets/panels/details/copy_icon.png</file>
+        <file>assets/panels/details/copy_hover_icon.png</file>
     </qresource>
 </RCC>
