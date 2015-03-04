@@ -39,6 +39,7 @@ pip install -r requirements.txt
 ```
 
 **Note**: pywin32==219 may need to be downloaded manually: [PyWin32](http://sourceforge.net/projects/pywin32/files/pywin32/)
+**Note**: pyinstaller==3.0dev may need to be downloaded manually: [PyInstaller](https://github.com/pyinstaller/pyinstaller/tree/python3)
 
 ### To Compile the project:
 
