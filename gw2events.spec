@@ -14,10 +14,10 @@ exe = EXE(pyz,
           a.binaries,
           a.zipfiles,
           a.datas,
-          name='GW2events.exe',
+          name='GW2 Events.exe',
           debug=False,
           strip=None,
           upx=False,
-          console=True,
+          console=False,
           icon="assets\icons\Gw2.ico"
           )
