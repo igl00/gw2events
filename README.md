@@ -44,7 +44,7 @@ pip install -r requirements.txt
 
 ### To Compile the project:
 
-* Run PyInstaller(is should be in your system path):
+* Run PyInstaller. *It should be in your system path*:
 ```
 pyinstaller gw2events.spec
 ```
