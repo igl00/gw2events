@@ -13,6 +13,9 @@ class GW2Events(object):
         self.ACTIVE = 450  # Sets the number of seconds to leave an event active 600 = 10 minutes
 
     def build_events(self, console_out=False, format_out=False):
+        """
+        The main method to update the events.
+        """
         timer = []
 
         for boss in self.events:
@@ -45,8 +48,6 @@ class GW2Events(object):
     def format_seconds(self, s, average_time):
         """
         Returns seconds in the following string format HH:MM:SS
-        :param s:
-        :return:
         """
         if s < 0:
             s = int(average_time) - (self.DAY + s)
@@ -56,8 +57,6 @@ class GW2Events(object):
     def get_utc_times(self, times):
         """
         Takes a list of times in string format HH:MM and returns a list of utc datetime objects
-        :param times:
-        :return:
         """
         utc_times = []
 
@@ -75,8 +74,6 @@ class GW2Events(object):
     def get_spawn_delta(self, times):
         """
         Takes in a list of UTC spawn times and returns a list of the deltas from the current UTC time
-        :param times:
-        :return:
         """
 
         deltas = []
@@ -92,8 +89,6 @@ class GW2Events(object):
     def get_events(self, file):
         """
         Opens a file and returns it as a json object
-        :param file:
-        :return:
         """
         with open(file, 'r') as f:
             data = f.read()
@@ -103,8 +98,6 @@ class GW2Events(object):
     def print_events(self, events):
         """
         Output the given event list to the console
-        :param events:
-        :return:
         """
         for event in events:
             boss = event[0]
