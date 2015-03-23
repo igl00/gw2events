@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './ui\bossPanel.ui'
 #
-# Created: Fri Feb 27 15:11:19 2015
+# Created: Mon Mar 23 22:58:29 2015
 #      by: pyside-uic 0.2.15 running on PySide 1.2.2
 #
 # WARNING! All changes made in this file will be lost!
