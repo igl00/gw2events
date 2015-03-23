@@ -262,7 +262,6 @@ class IPThread(QThread):
 
     def get_remote_ip(self, process):
         """
-
         Returns the most recent remote connection IP address for a given process.
         """
         gw2 = psutil.Process(self.get_pid(process))
