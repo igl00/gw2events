@@ -3,8 +3,8 @@
 
 ![](gw2events_thumb.jpg)
     
-Guild Wars 2 Events is a "World Boss" timer for your desktop. It strives to maintain the GW2 style while providing
-an easy to use timer interface.
+Guild Wars 2 Events is a World Boss timer for your desktop. It strives to maintain the GW2 style while providing
+an easy on the eyes interface.
 
 You can find a working 64x build here: [GW2 Events.exe](https://mega.co.nz/#!ZEd0FCRb!s_uSkhIXGO4gqtZjVukkjq_UdXNFnIe7o3Yyaw_FAls)
 
